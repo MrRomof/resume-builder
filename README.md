@@ -89,8 +89,8 @@ Resume data is saved in the browser. Export JSON from the old site and import it
 
 ## Version 1.0.0 — creators and sharing
 
-The app displays the creator card above the resume, outside the printed PDF.
-It includes Mohammad Fathi's LinkedIn/GitHub and Fourka Team's LinkedIn, keyboard
+The app displays one shared creator card above all three sidebar tabs, outside the printed PDF.
+It links Mohammad Fathi (name and GitHub icon) to GitHub and Fourka Team (name and LinkedIn icon) to LinkedIn, with keyboard
 focus styling, responsive layout, and reduced-motion support. Website sharing
 uses the native share sheet or clipboard/manual-copy fallback. Resume sharing
 supports text/JSON files, falling back to downloading an attachment. PDF sharing
@@ -106,3 +106,11 @@ still requires no backend for resume editing or PDF export.
 Validation: mobile/desktop Persian/English layout, accordion alignment, print
 exclusion, file-sharing/download fallback, optional counter rendering, and SQLite
 counter retry/unique-browser tests. Cloudflare deployment is pending owner setup.
+
+Sidebar update: the version stays at the bottom of the sidebar. Clicking Resume
+Builder copies the site URL with inline feedback; the adjacent share icon opens
+the share sheet. Resume sharing sits beside PDF export in the header. On mobile,
+both undo/redo controls remain visible, progress is hidden, and the review badge
+overlays the settings button. Card shimmer takes 1.8 seconds; the border highlight
+rests for five seconds then travels for four seconds. Light mode uses pale blue;
+dark mode retains the original highlight. Reduced motion disables both effects.

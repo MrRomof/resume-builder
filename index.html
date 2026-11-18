@@ -17,7 +17,7 @@
   <div class="brand" data-t="brand"></div>
   <div class="langs" id="langs" role="group" aria-label="Language">
     <button type="button" data-lang="en">EN</button>
-    <button type="button" data-lang="fa">فا</button>
+    <button type="button" data-lang="fa">FA</button>
   </div>
   <button type="button" id="btnProgress" class="progress"><span class="pbar"><span id="progFill"></span></span><span id="progText"></span></button>
   <div class="actions">
@@ -25,6 +25,7 @@
     <button type="button" class="icon-btn" id="btnRedo" data-tt="redo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
     <button type="button" id="btnPreview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span class="lbl"></span></button>
     <button type="button" id="btnPanel" class="panel-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg><span class="lbl" data-t="panel"></span><span class="check-badge" hidden></span></button>
+    <button type="button" id="shareResume"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V3m-4 4 4-4 4 4M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span class="lbl"></span></button>
     <button type="button" id="btnPrint" class="primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="lbl" data-t="pdf"></span></button>
   </div>
 </header>
@@ -41,6 +42,7 @@
     </div>
 
     <div class="panel-body">
+    <section id="community" class="community" aria-label="Creators and sharing"></section>
       <!-- design -->
       <div class="tab-pane" data-pane="design">
         <section class="p-sec">
@@ -102,10 +104,10 @@
         <p class="p-note privacy" data-t="privacy"></p>
       </div>
     </div>
+    <footer class="panel-footer"><span id="appVersion" dir="ltr">v1.0.0</span></footer>
   </aside>
 
   <main class="stage" id="stage">
-    <section id="community" class="community" aria-label="Creators and sharing"></section>
     <p class="fitbar"><span id="pageInfo" class="page-info" hidden><span id="pageCount"></span><button type="button" class="link-btn" id="btnFit" data-t="fitOne"></button></span></p>
     <div class="wrap"><div id="page" class="page"></div></div>
   </main>

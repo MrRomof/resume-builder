@@ -5,28 +5,51 @@ const communityText = (fa, en) => lang() === 'fa' ? fa : en;
 function creatorLink(label, url, iconName) {
   return h('a', { href: url, target: '_blank', rel: 'noopener noreferrer' }, iconName ? icon(iconName) : null, label);
 }
+function shareIcon() {
+  const span = h('span', { class: 'ic', 'aria-hidden': 'true' });
+  span.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V3m-4 4 4-4 4 4M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>';
+  return span;
+}
 function renderCommunity() {
-  const link = creatorLink;
+  const shareLabel = communityText('اشتراک سایت', 'Share website');
   const card = h('div', { class: 'creator-card' },
-    h('div', { class: 'creator-heading' }, icon('linkedin'), h('span', {}, communityText('تیم سازنده', 'Made by')), h('small', { dir: 'ltr' }, `v${APP_VERSION}`)),
+    h('div', { class: 'creator-heading' },
+      h('span', { class: 'made-by' }, communityText('ساخته‌شده توسط', 'Made by')),
+      h('button', { type: 'button', class: 'site-copy', id: 'copySite', onclick: copySite, title: communityText('کپی آدرس سایت', 'Copy website address') }, 'Resume Builder'),
+      h('button', { type: 'button', class: 'site-share', id: 'shareSite', onclick: shareSite, title: shareLabel, 'aria-label': shareLabel }, shareIcon())),
     h('div', { class: 'creator-people' },
-      h('div', { class: 'creator-person' }, link('Mohammad Fathi', 'https://www.linkedin.com/in/mohammad-fathi-718236259'),
-        h('div', { class: 'creator-links' }, link('LinkedIn', 'https://www.linkedin.com/in/mohammad-fathi-718236259', 'linkedin'), link('GitHub', 'https://github.com/MrRomof', 'github'))),
-      h('div', { class: 'creator-person' }, link('Fourka Team', 'https://www.linkedin.com/company/fourka/'),
-        h('div', { class: 'creator-links' }, link('LinkedIn', 'https://www.linkedin.com/company/fourka/', 'linkedin')))));
-  fill($('#community'), card, h('div', { class: 'community-actions' },
-    h('button', { type: 'button', class: 'btn', id: 'shareSite', onclick: shareSite }, communityText('اشتراک سایت', 'Share website')),
-    h('button', { type: 'button', class: 'btn', id: 'shareResume', onclick: resumeShareDialog }, communityText('ارسال رزومه', 'Send resume'))));
+      creatorLink('Mohammad Fathi', 'https://github.com/MrRomof', 'github'),
+      creatorLink('Fourka Team', 'https://www.linkedin.com/company/fourka/', 'linkedin')),
+    h('span', { class: 'copy-feedback', id: 'copyFeedback', role: 'status', hidden: '' }));
+  fill($('#community'), card);
+  $('#appVersion').textContent = `v${APP_VERSION}`;
+  const button = $('#shareResume');
+  const label = communityText('ارسال رزومه', 'Send resume');
+  button.querySelector('.lbl').textContent = label;
+  button.title = label; button.setAttribute('aria-label', label); button.onclick = resumeShareDialog;
   renderStats();
 }
-async function shareSite() {
-  try {
-    if (navigator.share) { await navigator.share({ title: 'Resume Builder', url: PUBLIC_SITE }); return; }
-    if (navigator.clipboard) { await navigator.clipboard.writeText(PUBLIC_SITE); toast(communityText('لینک سایت کپی شد', 'Website link copied')); return; }
-  } catch (e) { if (e.name === 'AbortError') return; }
+let copyFeedbackTimer;
+function manualCopySite() {
   const input = h('input', { value: PUBLIC_SITE, readonly: '', class: 'share-url', 'aria-label': communityText('لینک سایت', 'Website URL') });
-  openDialog(communityText('اشتراک سایت', 'Share website'), input, [h('button', { class: 'btn', onclick: () => dlg.close() }, communityText('بستن', 'Close'))]);
+  openDialog(communityText('کپی آدرس سایت', 'Copy website address'), input, [h('button', { class: 'btn', onclick: () => dlg.close() }, communityText('بستن', 'Close'))]);
   input.focus(); input.select();
+}
+async function copySite() {
+  try {
+    if (!navigator.clipboard) return manualCopySite();
+    await navigator.clipboard.writeText(PUBLIC_SITE);
+    const feedback = $('#copyFeedback');
+    feedback.textContent = communityText('آدرس سایت کپی شد', 'Website address copied'); feedback.hidden = false;
+    clearTimeout(copyFeedbackTimer); copyFeedbackTimer = setTimeout(() => { feedback.hidden = true; }, 3500);
+  } catch { manualCopySite(); }
+}
+async function shareSite() {
+  if (navigator.share) {
+    try { await navigator.share({ title: 'Resume Builder', url: PUBLIC_SITE }); return; }
+    catch (e) { if (e.name === 'AbortError') return; }
+  }
+  await copySite();
 }
 function resumeShareDialog() {
   const name = (resumeName(R).replace(/[\\/:*?"<>|]+/g, '').trim() || 'resume');

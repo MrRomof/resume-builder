@@ -972,7 +972,7 @@ $('#photoInput').addEventListener('change', e => {
 
 /* ---------- toolbar & panel events ---------- */
 document.querySelectorAll('#langs button').forEach(b => { b.onclick = () => switchLang(b.dataset.lang); });
-document.querySelectorAll('.tab').forEach(b => { b.onclick = () => { prefs.tab = b.dataset.tab; savePrefs(); renderChrome(); }; });
+document.querySelectorAll('.tab').forEach(b => { b.onclick = () => { prefs.tab = b.dataset.tab; savePrefs(); renderChrome(); $('.panel-body').scrollTop = 0; }; });
 $('#btnPreview').onclick = () => { mode = editing() ? 'view' : 'edit'; render(); };
 $('#btnUndo').onclick = undo;
 $('#btnRedo').onclick = redo;
