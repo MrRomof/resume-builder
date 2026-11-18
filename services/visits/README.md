@@ -1,6 +1,6 @@
 # Optional global visit counters (not deployed)
 
-The static site hides counters until analytics-config.json has an HTTPS endpoint.
+The static site displays a statistics card with dashes until analytics-config.json has an HTTPS endpoint. Successful responses show Views on the left and Users (distinct browsers) on the right in both languages.
 This optional Cloudflare Worker + D1 implementation is ready for owner setup.
 No resume content, name, email, or IP is written to the database. A random browser
 ID is stored locally and sent to the endpoint. The hosting provider may keep its

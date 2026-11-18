@@ -100,7 +100,7 @@ Global visitor counters are **not active yet**. An optional Worker/D1 service an
 setup steps are in `services/visits/README.md`. Set `analytics-config.json` only
 after deploying an endpoint you control. Counts estimate unique browsers, not
 verified individuals; no resume content is included in analytics requests.
-Without an endpoint or if it fails, the counters stay hidden. The site itself
+Without an endpoint or if it fails, the card shows an unavailable message and dashes instead of invented totals. The site itself
 still requires no backend for resume editing or PDF export.
 
 Validation: mobile/desktop Persian/English layout, accordion alignment, print
