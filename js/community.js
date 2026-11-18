@@ -1,6 +1,6 @@
 /* App-only credits and deliberate sharing. Never included in printed resumes. */
 const APP_VERSION = '1.0.0';
-const PUBLIC_SITE = 'https://mrromof.github.io/resume_builder/';
+const PUBLIC_SITE = 'https://mrromof.github.io/resume-builder/';
 const communityText = (fa, en) => lang() === 'fa' ? fa : en;
 function creatorLink(label, url, iconName) {
   return h('a', { href: url, target: '_blank', rel: 'noopener noreferrer' }, iconName ? icon(iconName) : null, label);

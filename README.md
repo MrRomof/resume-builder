@@ -83,7 +83,7 @@ License: [MIT](LICENSE)
 
 ## GitHub Pages
 
-This project needs no backend or build step. In Settings → Pages, choose **Deploy from a branch**, **main**, **/(root)**, then Save. Expected URL after a successful deployment: https://mrromof.github.io/resume_builder/
+This project needs no backend or build step. In Settings → Pages, choose **Deploy from a branch**, **main**, **/(root)**, then Save. Expected URL after a successful deployment: https://mrromof.github.io/resume-builder/
 
 Resume data is saved in the browser. Export JSON from the old site and import it on the new site to move your resumes.
 
