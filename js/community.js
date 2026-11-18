@@ -25,7 +25,6 @@ function renderCommunity() {
   const label = communityText('ارسال رزومه', 'Send resume');
   button.querySelector('.lbl').textContent = label;
   button.title = label; button.setAttribute('aria-label', label); button.onclick = resumeShareDialog;
-  renderStats();
 }
 let copyFeedbackTimer;
 function manualCopySite() {
@@ -68,56 +67,4 @@ function resumeShareDialog() {
     h('button', { class: 'btn', onclick: () => sendFile(false) }, communityText('ارسال متن رزومه', 'Send resume text')),
     h('button', { class: 'btn', onclick: () => sendFile(true) }, communityText('ارسال فایل قابل ویرایش (JSON)', 'Send editable file (JSON)'))),
     [h('button', { class: 'btn', onclick: () => dlg.close() }, communityText('بستن', 'Close'))]);
-}
-
-// Only the configured shared endpoint supplies numbers; unavailable is never zero.
-let communityStats = null;
-let communityStatsStatus = 'loading';
-function renderStats() {
-  document.querySelector('.community-stats')?.remove();
-  const explanation = communityText('کاربران بر اساس مرورگرهای متمایز تخمین زده می‌شوند؛ استفاده از چند دستگاه یا پاک کردن داده‌ها روی شمارش اثر دارد.', 'Users are estimated from distinct browsers; multiple devices or cleared storage affect the count.');
-  const metric = (key, fa, en, symbol) => h('div', { class: `stat-metric stat-${key}`, dir: lang() === 'fa' ? 'rtl' : 'ltr' },
-    icon(symbol), h('span', { class: 'stat-value' },
-      h('bdi', { class: 'stat-number' }, communityStats ? new Intl.NumberFormat(lang() === 'fa' ? 'fa-IR' : 'en-US').format(communityStats[key]) : '—'),
-      ' ', communityText(fa, en)));
-  const card = h('section', { class: 'creator-card community-stats', 'aria-label': communityText('آمار برنامه', 'App statistics'), title: explanation, 'aria-busy': String(communityStatsStatus === 'loading') },
-    h('div', { class: 'stats-grid' }, metric('views', 'بازدید', 'Views', 'eye'), metric('visitors', 'کاربر', 'Users', 'users')));
-  if (!communityStats) card.append(h('p', { class: 'stats-note', role: 'status' },
-    communityStatsStatus === 'loading' ? communityText('در حال دریافت آمار…', 'Loading statistics…') :
-    communityStatsStatus === 'disabled' ? communityText('آمار بازدید هنوز فعال نشده است.', 'Visit statistics are not active yet.') :
-    communityText('آمار فعلاً در دسترس نیست.', 'Statistics are temporarily unavailable.')));
-  $('#community').append(card);
-}
-let communityStatsRequest;
-function loadCommunityStats() {
-  // Rendering, language changes and duplicate calls share one request per document.
-  return communityStatsRequest ||= requestCommunityStats();
-}
-async function requestCommunityStats() {
-  try {
-    const configResponse = await fetch('analytics-config.json', { cache: 'no-cache' });
-    if (!configResponse.ok) throw new Error('Configuration unavailable');
-    const { endpoint } = await configResponse.json();
-    if (!endpoint) { communityStatsStatus = 'disabled'; return; }
-    const base = new URL(endpoint);
-    if (base.protocol !== 'https:' || base.username || base.password || base.search || base.hash || !['', '/'].includes(base.pathname)) throw new Error('Use the HTTPS Worker base URL');
-    let visitor = null;
-    try {
-      visitor = localStorage.getItem('resume-visitor-v1');
-      if (!/^[a-f0-9-]{36}$/.test(visitor || '')) {
-        visitor = crypto.randomUUID(); localStorage.setItem('resume-visitor-v1', visitor);
-      }
-    } catch { visitor = null; }
-    const recording = visitor && document.visibilityState === 'visible';
-    const response = await fetch(new URL(recording ? '/visits' : '/stats', base), {
-      method: recording ? 'POST' : 'GET',
-      ...(recording ? { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ visitor, event: crypto.randomUUID() }) } : {}),
-      credentials: 'omit', referrerPolicy: 'no-referrer', signal: AbortSignal.timeout(6000)
-    });
-    if (!response.ok || response.status === 204) throw new Error('Counter unavailable');
-    const data = await response.json();
-    if (!Number.isSafeInteger(data.views) || !Number.isSafeInteger(data.visitors) || data.views < 0 || data.visitors < 0 || data.visitors > data.views) throw new Error('Invalid counter response');
-    communityStats = data; communityStatsStatus = 'ready';
-  } catch { communityStatsStatus = 'unavailable'; }
-  finally { renderStats(); }
 }

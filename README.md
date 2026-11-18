@@ -1,6 +1,6 @@
 # Resume Builder — English & Persian
 
-A free, open-source, one-page resume builder that runs entirely in your browser. No sign-up, no paywall, no server: your resume stays on your device. Optional visitor statistics use an anonymous browser identifier.
+A free, open-source, one-page resume builder that runs entirely in your browser. No sign-up, no paywall, no server: your resume stays on your device.
 
 **Features**
 
@@ -83,7 +83,7 @@ License: [MIT](LICENSE)
 
 ## GitHub Pages
 
-This project needs no backend or build step. In Settings → Pages, choose **Deploy from a branch**, **main**, **/(root)**, then Save. Expected URL after a successful deployment: https://mrromof.github.io/resume-builder/
+This project needs no backend or build step. In Settings → Pages, choose **Deploy from a branch**, **release/pages**, **/(root)**, then Save. Expected URL after a successful deployment: https://mrromof.github.io/resume-builder/
 
 Resume data is saved in the browser. Export JSON from the old site and import it on the new site to move your resumes.
 
@@ -96,17 +96,6 @@ uses the native share sheet or clipboard/manual-copy fallback. Resume sharing
 supports text/JSON files, falling back to downloading an attachment. PDF sharing
 uses the existing print-to-PDF flow; attach that PDF in your messaging app.
 
-Global visitor counters are **not active yet**. An optional Worker/D1 service and
-setup steps are in `services/visits/README.md`. Set `analytics-config.json` only
-after deploying an endpoint you control. Counts estimate unique browsers, not
-verified individuals; no resume content is included in analytics requests.
-Without an endpoint or if it fails, the card shows an unavailable message and dashes instead of invented totals. The site itself
-still requires no backend for resume editing or PDF export.
-
-Validation: mobile/desktop Persian/English layout, accordion alignment, print
-exclusion, file-sharing/download fallback, optional counter rendering, and SQLite
-counter retry/unique-browser tests. Cloudflare deployment is pending owner setup.
-
 Sidebar update: the version stays at the bottom of the sidebar. The card has two creator links stacked on the left and a centered share button
 on the right. The share button opens the share sheet or copies the URL with inline
 feedback when native sharing is unavailable. Both sharing controls use the
@@ -115,10 +104,3 @@ both undo/redo controls remain visible, progress is hidden, and the review badge
 overlays the settings button. Card shimmer takes 1.8 seconds; the border highlight
 rests for five seconds then travels for four seconds. Light mode uses pale blue;
 dark mode retains the original highlight. Reduced motion disables both effects.
-
-The optional counter service is now ready for a free Cloudflare Workers + D1
-account: separate read/write routes, keyed anonymous browser IDs, atomic totals,
-short reload-burst/event deduplication, basic bot checks, throttling, and scheduled
-cleanup. Full deployment, secret setup, API contract and verification steps:
-[Counter deployment guide](services/visits/README.md). The site remains on GitHub
-Pages. An owner-deployed Worker URL is still required before live counts appear.

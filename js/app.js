@@ -1084,5 +1084,3 @@ hist.last = JSON.stringify(STATE);
 persist(hist.last);
 render();
 document.fonts?.ready.then(checkFit);
-
-loadCommunityStats();
