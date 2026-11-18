@@ -107,9 +107,10 @@ Validation: mobile/desktop Persian/English layout, accordion alignment, print
 exclusion, file-sharing/download fallback, optional counter rendering, and SQLite
 counter retry/unique-browser tests. Cloudflare deployment is pending owner setup.
 
-Sidebar update: the version stays at the bottom of the sidebar. Clicking Resume
-Builder copies the site URL with inline feedback; the adjacent share icon opens
-the share sheet. Resume sharing sits beside PDF export in the header. On mobile,
+Sidebar update: the version stays at the bottom of the sidebar. The card has two creator links stacked on the left and a centered share button
+on the right. The share button opens the share sheet or copies the URL with inline
+feedback when native sharing is unavailable. Both sharing controls use the
+three-circle connected share icon. Resume sharing sits beside PDF export in the header. On mobile,
 both undo/redo controls remain visible, progress is hidden, and the review badge
 overlays the settings button. Card shimmer takes 1.8 seconds; the border highlight
 rests for five seconds then travels for four seconds. Light mode uses pale blue;

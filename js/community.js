@@ -3,23 +3,21 @@ const APP_VERSION = '1.0.0';
 const PUBLIC_SITE = 'https://mrromof.github.io/resume-builder/';
 const communityText = (fa, en) => lang() === 'fa' ? fa : en;
 function creatorLink(label, url, iconName) {
-  return h('a', { href: url, target: '_blank', rel: 'noopener noreferrer' }, iconName ? icon(iconName) : null, label);
+  return h('a', { href: url, target: '_blank', rel: 'noopener noreferrer' }, iconName ? icon(iconName) : null, h('span', { class: 'creator-name' }, label));
 }
 function shareIcon() {
   const span = h('span', { class: 'ic', 'aria-hidden': 'true' });
-  span.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V3m-4 4 4-4 4 4M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>';
+  span.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"/></svg>';
   return span;
 }
 function renderCommunity() {
   const shareLabel = communityText('اشتراک سایت', 'Share website');
   const card = h('div', { class: 'creator-card' },
-    h('div', { class: 'creator-heading' },
-      h('span', { class: 'made-by' }, communityText('ساخته‌شده توسط', 'Made by')),
-      h('button', { type: 'button', class: 'site-copy', id: 'copySite', onclick: copySite, title: communityText('کپی آدرس سایت', 'Copy website address') }, 'Resume Builder'),
+    h('div', { class: 'creator-layout' },
+      h('div', { class: 'creator-people' },
+        creatorLink('Mohammad Fathi', 'https://github.com/MrRomof', 'github'),
+        creatorLink('Fourka Team', 'https://www.linkedin.com/company/fourka/', 'linkedin')),
       h('button', { type: 'button', class: 'site-share', id: 'shareSite', onclick: shareSite, title: shareLabel, 'aria-label': shareLabel }, shareIcon())),
-    h('div', { class: 'creator-people' },
-      creatorLink('Mohammad Fathi', 'https://github.com/MrRomof', 'github'),
-      creatorLink('Fourka Team', 'https://www.linkedin.com/company/fourka/', 'linkedin')),
     h('span', { class: 'copy-feedback', id: 'copyFeedback', role: 'status', hidden: '' }));
   fill($('#community'), card);
   $('#appVersion').textContent = `v${APP_VERSION}`;
