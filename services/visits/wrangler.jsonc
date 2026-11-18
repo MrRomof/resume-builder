@@ -1,0 +1,7 @@
+{
+  "name": "fourka-resume-visits",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-18",
+  "vars": { "ALLOWED_ORIGIN": "https://mrromof.github.io" },
+  "d1_databases": [{ "binding": "DB", "database_name": "resume-visits", "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID" }]
+}

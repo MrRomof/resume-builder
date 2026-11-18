@@ -788,6 +788,7 @@ function renderChrome() {
   document.querySelectorAll('#langs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang()));
   document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === prefs.tab));
   document.querySelectorAll('.tab-pane').forEach(p => { p.hidden = p.dataset.pane !== prefs.tab; });
+  renderCommunity();
   updateHistoryButtons();
   renderDesign();
   renderFiles();
@@ -1083,3 +1084,5 @@ hist.last = JSON.stringify(STATE);
 persist(hist.last);
 render();
 document.fonts?.ready.then(checkFit);
+
+loadCommunityStats();

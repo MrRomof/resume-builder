@@ -86,3 +86,23 @@ License: [MIT](LICENSE)
 This project needs no backend or build step. In Settings → Pages, choose **Deploy from a branch**, **main**, **/(root)**, then Save. Expected URL after a successful deployment: https://mrromof.github.io/resume_builder/
 
 Resume data is saved in the browser. Export JSON from the old site and import it on the new site to move your resumes.
+
+## Version 1.0.0 — creators and sharing
+
+The app displays the creator card above the resume, outside the printed PDF.
+It includes Mohammad Fathi's LinkedIn/GitHub and Fourka Team's LinkedIn, keyboard
+focus styling, responsive layout, and reduced-motion support. Website sharing
+uses the native share sheet or clipboard/manual-copy fallback. Resume sharing
+supports text/JSON files, falling back to downloading an attachment. PDF sharing
+uses the existing print-to-PDF flow; attach that PDF in your messaging app.
+
+Global visitor counters are **not active yet**. An optional Worker/D1 service and
+setup steps are in `services/visits/README.md`. Set `analytics-config.json` only
+after deploying an endpoint you control. Counts estimate unique browsers, not
+verified individuals; no resume content is included in analytics requests.
+Without an endpoint or if it fails, the counters stay hidden. The site itself
+still requires no backend for resume editing or PDF export.
+
+Validation: mobile/desktop Persian/English layout, accordion alignment, print
+exclusion, file-sharing/download fallback, optional counter rendering, and SQLite
+counter retry/unique-browser tests. Cloudflare deployment is pending owner setup.
