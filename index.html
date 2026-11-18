@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resume Builder</title>
+<meta name="description" content="Free, open-source resume builder in English and Persian — 19 templates, resume review, PDF export. Works offline; your data stays in your browser.">
+<meta name="theme-color" content="#1f4e79">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand" data-t="brand"></div>
+  <div class="langs" id="langs" role="group" aria-label="Language">
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="fa">فا</button>
+  </div>
+  <button type="button" id="btnProgress" class="progress"><span class="pbar"><span id="progFill"></span></span><span id="progText"></span></button>
+  <div class="actions">
+    <button type="button" class="icon-btn" id="btnUndo" data-tt="undo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+    <button type="button" class="icon-btn" id="btnRedo" data-tt="redo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+    <button type="button" id="btnPreview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span class="lbl"></span></button>
+    <button type="button" id="btnPanel" class="panel-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg><span class="lbl" data-t="panel"></span><span class="check-badge" hidden></span></button>
+    <button type="button" id="btnPrint" class="primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="lbl" data-t="pdf"></span></button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="panel" id="panel">
+    <div class="panel-head">
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab" role="tab" data-tab="design" data-t="tabDesign"></button>
+        <button type="button" class="tab" role="tab" data-tab="check"><span data-t="tabCheck"></span><span class="check-badge" hidden></span></button>
+        <button type="button" class="tab" role="tab" data-tab="files" data-t="tabFiles"></button>
+      </div>
+      <button type="button" class="icon-btn panel-close" id="btnPanelClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+
+    <div class="panel-body">
+      <!-- design -->
+      <div class="tab-pane" data-pane="design">
+        <section class="p-sec">
+          <h3 data-t="template"></h3>
+          <div id="tpls" class="tpls"></div>
+        </section>
+        <section class="p-sec">
+          <h3 data-t="color"></h3>
+          <div id="swatches" class="swatches"></div>
+          <div class="custom-color">
+            <label class="color-well"><input type="color" id="colorPick"><span data-t="customColor"></span></label>
+            <input type="text" id="colorHex" class="hex" maxlength="7" spellcheck="false" aria-label="HEX">
+          </div>
+        </section>
+        <section class="p-sec two">
+          <label><span data-t="font"></span><select id="fontSel"></select></label>
+          <label><span><span data-t="size"></span> <output id="sizeOut"></output></span><input type="range" id="sizeRange" min="80" max="115" step="1"></label>
+        </section>
+        <section class="p-sec">
+          <label class="range-row"><span><span data-t="spacing"></span> <output id="spaceOut"></output></span><input type="range" id="spaceRange" min="75" max="130" step="5"></label>
+        </section>
+        <section class="p-sec" id="photoRow">
+          <label class="switch"><input type="checkbox" id="photoChk"><span data-t="photo"></span></label>
+          <div class="seg-ctl" id="photoShape" aria-label="Photo shape"></div>
+        </section>
+        <section class="p-sec">
+          <label class="switch"><input type="checkbox" id="iconsChk"><span data-t="icons"></span></label>
+          <label class="range-row" id="iconSizeRow"><span><span data-t="iconSize"></span> <output id="iconSizeOut"></output></span><input type="range" id="iconSize" min="70" max="170" step="5"></label>
+        </section>
+        <p class="p-note" data-t="hint"></p>
+      </div>
+
+      <!-- review -->
+      <div class="tab-pane" data-pane="check" id="checkPane"></div>
+
+      <!-- resumes & files -->
+      <div class="tab-pane" data-pane="files">
+        <section class="p-sec">
+          <h3 data-t="myResumes"></h3>
+          <ul id="resList" class="res-list"></ul>
+          <div class="btn-row">
+            <button type="button" class="btn" id="btnNewResume" data-t="newResume"></button>
+            <button type="button" class="btn" id="btnDupResume" data-t="duplicate"></button>
+            <button type="button" class="btn" id="btnRenResume" data-t="rename"></button>
+            <button type="button" class="btn danger-btn" id="btnDelResume" data-t="delResume"></button>
+          </div>
+          <p class="p-note" data-t="tailorHint"></p>
+        </section>
+        <section class="p-sec">
+          <h3 data-t="files"></h3>
+          <div class="btn-row">
+            <button type="button" class="btn" id="btnExport" data-t="exportFile"></button>
+            <button type="button" class="btn" id="btnImport" data-t="importFile"></button>
+            <button type="button" class="btn" id="btnCopyText" data-t="copyText"></button>
+            <button type="button" class="btn" id="btnSample" data-t="sample"></button>
+            <button type="button" class="btn danger-btn" id="btnClear" data-t="reset"></button>
+          </div>
+        </section>
+        <p class="p-note privacy" data-t="privacy"></p>
+      </div>
+    </div>
+  </aside>
+
+  <main class="stage" id="stage">
+    <p class="fitbar"><span id="pageInfo" class="page-info" hidden><span id="pageCount"></span><button type="button" class="link-btn" id="btnFit" data-t="fitOne"></button></span></p>
+    <div class="wrap"><div id="page" class="page"></div></div>
+  </main>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<div class="measure-wrap" aria-hidden="true"><div id="measure" class="page"></div></div>
+<div id="sug" class="sug" hidden></div>
+<div id="toast" class="toast" role="status" hidden></div>
+<dialog id="dlg">
+  <div class="dlg-in">
+    <h3 id="dlgTitle"></h3>
+    <div id="dlgBody" class="dlg-body"></div>
+    <div id="dlgFoot" class="dlg-foot"></div>
+  </div>
+</dialog>
+
+<input type="file" id="photoInput" accept="image/*" hidden>
+<input type="file" id="jsonInput" accept="application/json,.json" hidden>
+
+<script src="js/data.js"></script>
+<script src="js/dates.js"></script>
+<script src="js/suggest.js"></script>
+<script src="js/templates.js"></script>
+<script src="js/check.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
