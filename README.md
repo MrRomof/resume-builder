@@ -1,6 +1,6 @@
 # Resume Builder — English & Persian
 
-A free, open-source, one-page resume builder that runs entirely in your browser. No sign-up, no paywall, no server: your data never leaves your device.
+A free, open-source, one-page resume builder that runs entirely in your browser. No sign-up, no paywall, no server: your resume stays on your device. Optional visitor statistics use an anonymous browser identifier.
 
 **Features**
 
@@ -115,3 +115,10 @@ both undo/redo controls remain visible, progress is hidden, and the review badge
 overlays the settings button. Card shimmer takes 1.8 seconds; the border highlight
 rests for five seconds then travels for four seconds. Light mode uses pale blue;
 dark mode retains the original highlight. Reduced motion disables both effects.
+
+The optional counter service is now ready for a free Cloudflare Workers + D1
+account: separate read/write routes, keyed anonymous browser IDs, atomic totals,
+short reload-burst/event deduplication, basic bot checks, throttling, and scheduled
+cleanup. Full deployment, secret setup, API contract and verification steps:
+[Counter deployment guide](services/visits/README.md). The site remains on GitHub
+Pages. An owner-deployed Worker URL is still required before live counts appear.

@@ -88,13 +88,19 @@ function renderStats() {
     communityText('آمار فعلاً در دسترس نیست.', 'Statistics are temporarily unavailable.')));
   $('#community').append(card);
 }
-async function loadCommunityStats() {
+let communityStatsRequest;
+function loadCommunityStats() {
+  // Rendering, language changes and duplicate calls share one request per document.
+  return communityStatsRequest ||= requestCommunityStats();
+}
+async function requestCommunityStats() {
   try {
     const configResponse = await fetch('analytics-config.json', { cache: 'no-cache' });
     if (!configResponse.ok) throw new Error('Configuration unavailable');
     const { endpoint } = await configResponse.json();
     if (!endpoint) { communityStatsStatus = 'disabled'; return; }
-    if (!/^https:\/\//.test(endpoint)) throw new Error('Invalid counter URL');
+    const base = new URL(endpoint);
+    if (base.protocol !== 'https:' || base.username || base.password || base.search || base.hash || !['', '/'].includes(base.pathname)) throw new Error('Use the HTTPS Worker base URL');
     let visitor = null;
     try {
       visitor = localStorage.getItem('resume-visitor-v1');
@@ -102,9 +108,13 @@ async function loadCommunityStats() {
         visitor = crypto.randomUUID(); localStorage.setItem('resume-visitor-v1', visitor);
       }
     } catch { visitor = null; }
-    const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ visitor, event: crypto.randomUUID() }), credentials: 'omit', referrerPolicy: 'no-referrer', signal: AbortSignal.timeout(6000) });
-    if (!response.ok) throw new Error('Counter unavailable');
+    const recording = visitor && document.visibilityState === 'visible';
+    const response = await fetch(new URL(recording ? '/visits' : '/stats', base), {
+      method: recording ? 'POST' : 'GET',
+      ...(recording ? { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ visitor, event: crypto.randomUUID() }) } : {}),
+      credentials: 'omit', referrerPolicy: 'no-referrer', signal: AbortSignal.timeout(6000)
+    });
+    if (!response.ok || response.status === 204) throw new Error('Counter unavailable');
     const data = await response.json();
     if (!Number.isSafeInteger(data.views) || !Number.isSafeInteger(data.visitors) || data.views < 0 || data.visitors < 0 || data.visitors > data.views) throw new Error('Invalid counter response');
     communityStats = data; communityStatsStatus = 'ready';
